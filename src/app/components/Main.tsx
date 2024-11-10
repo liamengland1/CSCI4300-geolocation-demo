@@ -52,7 +52,7 @@ const Main = () => {
     }
 
     return (<div className={styles['main-two-col']}>
-        <APIProvider apiKey={'AIzaSyCs_BHP81XgibP5PIBUvGe5SsI4M0_3XJU'}>
+        <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!!}>
             <Sidebar addPinFunc={addManyPins}/>
           <MainMap locations={locations} />
         </APIProvider>
