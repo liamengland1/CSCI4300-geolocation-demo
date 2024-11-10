@@ -18,9 +18,10 @@ interface PinFromGeoJson {
 interface SidebarProps {
   addPinFunc: (pins: PinFromGeoJson[]) => void;
   addCurrentLocPinFunc: (lat: number, lng: number) => void;
+  clearPinsFunc: () => void;
 }
 
-const Sidebar = ({ addPinFunc, addCurrentLocPinFunc }: SidebarProps) => { 
+const Sidebar = ({ addPinFunc, addCurrentLocPinFunc, clearPinsFunc }: SidebarProps) => { 
 
   const map = useMap();
   //const s = useMapsLibrary('marker');
@@ -80,8 +81,7 @@ const Sidebar = ({ addPinFunc, addCurrentLocPinFunc }: SidebarProps) => {
             const feature = data.features[i];
             const coords = feature.geometry.coordinates;
             if (map.getBounds()?.contains({lat: coords[1], lng: coords[0]}) == true) {
-              // apparently id isnt always unique...
-              pinsToAdd.push({id: i+feature.id, lat: coords[1], lng: coords[0], propsForInfoWindow: feature.properties});
+              pinsToAdd.push({id: feature.id, lat: coords[1], lng: coords[0], propsForInfoWindow: feature.properties});
               console.log(data.features[i]);
             }
             else {
@@ -97,13 +97,19 @@ const Sidebar = ({ addPinFunc, addCurrentLocPinFunc }: SidebarProps) => {
     }
   }
 
-
   return (<div className={styles.sidebar}>
     <h2>Menu</h2>
     <ul className={styles.list}>
-        <button className={styles.button} onClick={navigateToCurrentLocation}>Click me to go to your current location</button>
         <button className={styles.button} id={styles['mcdonalds-button']} onClick={mcdonaldsTime}>I'm lovin' it!</button>
         <button className={styles.button} id={styles['chickfila-button']} onClick={chickfilaTime}>Chick-fil-A</button>
+        <br>
+        </br>
+        <br></br>
+        <br></br>
+        <button className={styles.button} onClick={navigateToCurrentLocation}>Click me to go to your current location</button>
+        <button className={styles.button} onClick={()=>{
+          confirm('Are you sure you want to clear the map?') && clearPinsFunc();
+        }}>Clear Map</button>
     </ul>
   </div>)
   

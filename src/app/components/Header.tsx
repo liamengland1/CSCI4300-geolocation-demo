@@ -1,5 +1,9 @@
+'use client'
+
 import { ReactNode, useEffect } from 'react';
 import styles from './Header.module.css';
+import { PlaceAutocompleteClassic } from './Autocomplete';
+import { APIProvider, useMap } from '@vis.gl/react-google-maps';
 
 
 
@@ -9,8 +13,26 @@ const Header = () => {
 //  useEffect(() => {
 //    console.log("users changed inside users")
 //  }, [data])
+
+  let map = useMap(); 
+  
   return (<div className={styles.header}>
     <h1>My First Mappy App</h1>
+    <div className={styles['search-bar-container']}>Zoom to a place: <PlaceAutocompleteClassic onPlaceSelect={(place)=>{
+      
+      console.log(place);
+      if (map == null) {
+        console.log('bruh')
+        return;
+      } else {
+        if (place != null && place.geometry != null) {
+        map.panTo(place.geometry.location!!);
+        map.setZoom(11);
+      }
+      
+      
+      }}} /></div>
+    
   </div>)
   
 };

@@ -48,25 +48,33 @@ const Main = () => {
     }*/
 
     function addManyPins(pins: PinFromGeoJson[]) {
-        setLocations((prevLocations) => [
-            ...prevLocations,
-            ...pins.map((pin) => ({
+        setLocations((prevLocations) => {
+            const newPins = pins.filter(
+                (pin) => !prevLocations.some((location) => location.key === pin.id)
+            );
+
+            const formattedNewPins = newPins.map((pin) => ({
                 key: pin.id,
                 location: { lat: pin.lat, lng: pin.lng },
                 propsForInfoWindow: pin.propsForInfoWindow,
-            })),
-        ]);
+            }));
+
+            return [...prevLocations, ...formattedNewPins];
+        });
     }
 
     function updateCurrentLoc(aLat: number, aLng: number) {
         setCurrentLoc({key: 'current', location: {lat: aLat, lng: aLng}});
     }
 
+    function clearPins() {
+        setLocations([]);
+        setCurrentLoc(undefined);
+    }
+
     return (<div className={styles['main-two-col']}>
-        <APIProvider apiKey={process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY!!}>
-            <Sidebar addPinFunc={addManyPins} addCurrentLocPinFunc={updateCurrentLoc} />
+            <Sidebar addPinFunc={addManyPins} addCurrentLocPinFunc={updateCurrentLoc} clearPinsFunc={clearPins} />
           <MainMap mcdonaldsLocations={locations} currentLoc={currentLoc} />
-        </APIProvider>
 
     </div>)
 }

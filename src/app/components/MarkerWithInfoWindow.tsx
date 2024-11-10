@@ -1,4 +1,4 @@
-import { useAdvancedMarkerRef, AdvancedMarker, InfoWindow, Pin } from "@vis.gl/react-google-maps";
+import { useAdvancedMarkerRef, AdvancedMarker, InfoWindow, Pin, useMap } from "@vis.gl/react-google-maps";
 import { useState, useCallback, ReactNode, ReactElement } from "react";
 
 
@@ -21,11 +21,7 @@ const MarkerWithInfoWindow = ({poi}: MarkerWithInfoWindowProps) => {
     const [infoWindowShown, setInfoWindowShown] = useState(false);
   
     // clicking the marker will toggle the infowindow
-    const handleMarkerClick = useCallback(
-      () => setInfoWindowShown(isShown => !isShown),
-      []
-    );
-  
+
     // if the maps api closes the infowindow, we have to synchronize our state
     const handleClose = useCallback(() => setInfoWindowShown(false), []);
 
@@ -49,6 +45,17 @@ const MarkerWithInfoWindow = ({poi}: MarkerWithInfoWindowProps) => {
         }
     }
 
+    const map = useMap();
+
+    const handleMarkerClick = useCallback(
+      (ev: google.maps.MapMouseEvent) => {
+        if(!map) return;
+        if(!ev.latLng) return;
+        setInfoWindowShown(isShown => !isShown);
+        console.log('marker clicked:', ev.latLng.toString());
+        map.panTo(ev.latLng);
+      }, []);
+  
   
     return (
       <>

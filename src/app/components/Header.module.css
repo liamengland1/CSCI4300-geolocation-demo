@@ -1,3 +1,10 @@
 .header {
     height: 4.9vw;
+    display: flex;
+    justify-content: space-between;
+}
+
+.search-bar-container {
+    margin-top: 30px;
+    margin-right: 10px;
 }
