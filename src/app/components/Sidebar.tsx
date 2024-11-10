@@ -12,13 +12,15 @@ interface PinFromGeoJson {
   id: string;
   lat: number;
   lng: number;
+  propsForInfoWindow?: any;
 }
 
 interface SidebarProps {
   addPinFunc: (pins: PinFromGeoJson[]) => void;
+  addCurrentLocPinFunc: (lat: number, lng: number) => void;
 }
 
-const Sidebar = ({ addPinFunc }: SidebarProps) => { 
+const Sidebar = ({ addPinFunc, addCurrentLocPinFunc }: SidebarProps) => { 
 
   const map = useMap();
   //const s = useMapsLibrary('marker');
@@ -29,8 +31,9 @@ const Sidebar = ({ addPinFunc }: SidebarProps) => {
       if (map == null) {
         return;
       } else {
+      addCurrentLocPinFunc(position.coords.latitude, position.coords.longitude);
       map.setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
-      map.setZoom(12);
+      map.setZoom(16);
     }
     });
   }
@@ -43,11 +46,17 @@ const Sidebar = ({ addPinFunc }: SidebarProps) => {
       fetch('https://alltheplaces-data.openaddresses.io/runs/2024-11-02-13-32-13/output/mcdonalds.geojson')
         .then(response => response.json())
         .then(data => {
-          console.log(data);
+          //console.log(data);
           for (let i = 0; i<data.features.length; i++) {
             const feature = data.features[i];
             const coords = feature.geometry.coordinates;
-            pinsToAdd.push({id: feature.id, lat: coords[1], lng: coords[0]});
+            if (map.getBounds()?.contains({lat: coords[1], lng: coords[0]}) == true) {
+            pinsToAdd.push({id: feature.id, lat: coords[1], lng: coords[0], propsForInfoWindow: feature.properties});
+            console.log(data.features[i]);
+            }
+            else {
+              console.log('skipped, not in bounds');
+            }
             //const marker = new AdvancedMarkerElement({position: {lat: coords[1], lng: coords[0]}});
             //marker.setMap(map);
             //
@@ -58,12 +67,43 @@ const Sidebar = ({ addPinFunc }: SidebarProps) => {
     }
   }
 
+  const chickfilaTime = () => {
+    const pinsToAdd: PinFromGeoJson[] = [];
+    if (map == null) {
+      return;
+    } else {
+      fetch('https://alltheplaces-data.openaddresses.io/runs/2024-11-02-13-32-13/output/chick_fil_a.geojson')
+        .then(response => response.json())
+        .then(data => {
+          //console.log(data);
+          for (let i = 0; i<data.features.length; i++) {
+            const feature = data.features[i];
+            const coords = feature.geometry.coordinates;
+            if (map.getBounds()?.contains({lat: coords[1], lng: coords[0]}) == true) {
+              // apparently id isnt always unique...
+              pinsToAdd.push({id: i+feature.id, lat: coords[1], lng: coords[0], propsForInfoWindow: feature.properties});
+              console.log(data.features[i]);
+            }
+            else {
+              console.log('skipped, not in bounds');
+            }
+            //const marker = new AdvancedMarkerElement({position: {lat: coords[1], lng: coords[0]}});
+            //marker.setMap(map);
+            //
+          }
+          addPinFunc(pinsToAdd);
+        }
+        )
+    }
+  }
+
+
   return (<div className={styles.sidebar}>
-    <h2>Menu!!!</h2>
-    <ul>
-        <li onClick={navigateToCurrentLocation}>Click me to go to your current location</li>
-        <li onClick={mcdonaldsTime}>I'm lovin' it!</li>
-        <li>Settings</li>
+    <h2>Menu</h2>
+    <ul className={styles.list}>
+        <button className={styles.button} onClick={navigateToCurrentLocation}>Click me to go to your current location</button>
+        <button className={styles.button} id={styles['mcdonalds-button']} onClick={mcdonaldsTime}>I'm lovin' it!</button>
+        <button className={styles.button} id={styles['chickfila-button']} onClick={chickfilaTime}>Chick-fil-A</button>
     </ul>
   </div>)
   
