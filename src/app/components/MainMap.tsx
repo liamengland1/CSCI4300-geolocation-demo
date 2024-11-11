@@ -15,11 +15,11 @@ interface Poi {
 }
 
 interface MainMapProps {
-  mcdonaldsLocations: Poi[]; 
+  pinLocs: Poi[]; 
   currentLoc: Poi | undefined;
 }
 
-const MainMap = ({mcdonaldsLocations, currentLoc}: MainMapProps) => {  // pass in props from sidebar
+const MainMap = ({pinLocs, currentLoc}: MainMapProps) => {  // pass in props from sidebar
 
   return ( <>
   <div className={styles['map-container']}>
@@ -36,7 +36,7 @@ const MainMap = ({mcdonaldsLocations, currentLoc}: MainMapProps) => {  // pass i
       streetViewControl={true}
     >
         <CurrentLocationPin currentLoc={currentLoc}/>
-        {mcdonaldsLocations.map( (poi: Poi) => (
+        {pinLocs.map( (poi: Poi) => (
           <MarkerWithInfoWindow poi={poi} key={poi.key} />
         ))}
     </Map>
