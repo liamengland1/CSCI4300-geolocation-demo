@@ -38,7 +38,8 @@ const Sidebar = ({ addPinFunc, addCurrentLocPinFunc, clearPinsFunc }: SidebarPro
     if (map == null) {
       return;
     } else {
-      fetch('https://alltheplaces-data.openaddresses.io/runs/2025-05-17-13-31-55/output/mcdonalds.geojson')
+      //fetch('https://alltheplaces-data.openaddresses.io/runs/2025-05-17-13-31-55/output/mcdonalds.geojson')
+      fetch('/mcdonalds.geojson')
         .then(response => response.json())
         .then(data => {
           //console.log(data);
@@ -67,7 +68,8 @@ const Sidebar = ({ addPinFunc, addCurrentLocPinFunc, clearPinsFunc }: SidebarPro
     if (map == null) {
       return;
     } else {
-      fetch('https://alltheplaces-data.openaddresses.io/runs/2025-05-17-13-31-55/output/chick_fil_a.geojson')
+      //fetch('https://alltheplaces-data.openaddresses.io/runs/2025-05-17-13-31-55/output/chick_fil_a.geojson')
+      fetch('/chick_fil_a.geojson')
         .then(response => response.json())
         .then(data => {
           //console.log(data);
