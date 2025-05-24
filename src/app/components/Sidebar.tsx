@@ -96,6 +96,7 @@ const Sidebar = ({ addPinFunc, addCurrentLocPinFunc, clearPinsFunc }: SidebarPro
   return (<div className={styles.sidebar}>
     <h2>Menu</h2>
     <ul className={styles.list}>
+        <b><h4>Do not click these two buttons if you are zoomed out superfar, the site will freeze</h4></b>
         <button className={styles.button} id={styles['mcdonalds-button']} onClick={mcdonaldsTime}>I&apos;m lovin&apos; it!</button>
         <button className={styles.button} id={styles['chickfila-button']} onClick={chickfilaTime}>Chick-fil-A</button>
         <br>
