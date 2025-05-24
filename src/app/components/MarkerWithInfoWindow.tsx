@@ -1,11 +1,18 @@
 import { useAdvancedMarkerRef, AdvancedMarker, InfoWindow, Pin, useMap } from "@vis.gl/react-google-maps";
-import { useState, useCallback, ReactNode, ReactElement, useEffect } from "react";
+import { useCallback } from "react";
 
 
 interface Poi {
   key: string;
   location: google.maps.LatLngLiteral;
-  propsForInfoWindow?: any;
+  propsForInfoWindow?: {
+    '@spider'?: string;
+    name?: string;
+    'addr:street_address'?: string;
+    'addr:city'?: string;
+    'addr:state'?: string;
+    opening_hours?: string;
+  };
 }
 
 interface MarkerWithInfoWindowProps {
@@ -30,8 +37,8 @@ const MarkerWithInfoWindow = ({poi, isOpen, onClick}: MarkerWithInfoWindowProps)
 
     //console.log(children);
 
-    let poi_data = poi.propsForInfoWindow || {};
-    let chain_name = poi_data['@spider'] || '';
+    const poi_data = poi.propsForInfoWindow || {};
+    const chain_name = poi_data['@spider'] || '';
 
     function getPinProps () {
         if (chain_name == 'mcdonalds') {

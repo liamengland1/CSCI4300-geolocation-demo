@@ -1,23 +1,22 @@
 'use client'
 
-import { ReactNode, useState } from 'react';
+import { useState } from 'react';
 //import './Card.css';
 import styles from './Main.module.css';
-import { APIProvider } from '@vis.gl/react-google-maps';
 import MainMap from './MainMap';
 import Sidebar from './Sidebar';
 
 interface Poi {
     key: string;
     location: google.maps.LatLngLiteral;
-    propsForInfoWindow?: any;
+    propsForInfoWindow?: object;
 }
 
 interface PinFromGeoJson {
     id: string;
     lat: number;
     lng: number;
-    propsForInfoWindow?: any;
+    propsForInfoWindow?: object;
 }
 
 

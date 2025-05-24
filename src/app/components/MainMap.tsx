@@ -1,9 +1,8 @@
 'use client'
 
-import { ReactNode, useEffect, useState } from 'react';
+import { useState } from 'react';
 import styles from './MainMap.module.css';
-import { GoogleMapsEmbed } from '@next/third-parties/google';
-import {APIProvider, Map} from '@vis.gl/react-google-maps';
+import { Map } from '@vis.gl/react-google-maps';
 import CurrentLocationPin from './CurrentLocationPin';
 import MarkerWithInfoWindow from './MarkerWithInfoWindow';
 
@@ -11,7 +10,7 @@ import MarkerWithInfoWindow from './MarkerWithInfoWindow';
 interface Poi {
   key: string;
   location: google.maps.LatLngLiteral;
-  propsForInfoWindow?: any;
+  propsForInfoWindow?: object;
 }
 
 interface MainMapProps {

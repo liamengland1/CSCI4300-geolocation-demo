@@ -1,18 +1,12 @@
-import { ReactNode, useEffect } from 'react';
 import styles from './Sidebar.module.css';
-import { useMap, useMapsLibrary } from '@vis.gl/react-google-maps';
-import {
-  AdvancedMarker,
-  InfoWindow,
-  useAdvancedMarkerRef
-} from '@vis.gl/react-google-maps';
+import { useMap } from '@vis.gl/react-google-maps';
 
 
 interface PinFromGeoJson {
   id: string;
   lat: number;
   lng: number;
-  propsForInfoWindow?: any;
+  propsForInfoWindow?: object;
 }
 
 interface SidebarProps {
@@ -100,7 +94,7 @@ const Sidebar = ({ addPinFunc, addCurrentLocPinFunc, clearPinsFunc }: SidebarPro
   return (<div className={styles.sidebar}>
     <h2>Menu</h2>
     <ul className={styles.list}>
-        <button className={styles.button} id={styles['mcdonalds-button']} onClick={mcdonaldsTime}>I'm lovin' it!</button>
+        <button className={styles.button} id={styles['mcdonalds-button']} onClick={mcdonaldsTime}>I&apos;m lovin&apos; it!</button>
         <button className={styles.button} id={styles['chickfila-button']} onClick={chickfilaTime}>Chick-fil-A</button>
         <br>
         </br>
@@ -108,7 +102,9 @@ const Sidebar = ({ addPinFunc, addCurrentLocPinFunc, clearPinsFunc }: SidebarPro
         <br></br>
         <button className={styles.button} onClick={navigateToCurrentLocation}>Click me to go to your current location</button>
         <button className={styles.button} onClick={()=>{
-          confirm('Are you sure you want to clear the map?') && clearPinsFunc();
+          if (confirm('Are you sure you want to clear the map?')) {
+            clearPinsFunc();
+          }
         }}>Clear Map</button>
     </ul>
   </div>)
