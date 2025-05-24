@@ -34,7 +34,7 @@ const Sidebar = ({ addPinFunc, addCurrentLocPinFunc, clearPinsFunc }: SidebarPro
       } else {
       addCurrentLocPinFunc(position.coords.latitude, position.coords.longitude);
       map.setCenter({lat: position.coords.latitude, lng: position.coords.longitude});
-      map.setZoom(16);
+      map.setZoom(13);
     }
     });
   }
@@ -44,7 +44,7 @@ const Sidebar = ({ addPinFunc, addCurrentLocPinFunc, clearPinsFunc }: SidebarPro
     if (map == null) {
       return;
     } else {
-      fetch('https://alltheplaces-data.openaddresses.io/runs/2024-11-02-13-32-13/output/mcdonalds.geojson')
+      fetch('https://alltheplaces-data.openaddresses.io/runs/2025-05-17-13-31-55/output/mcdonalds.geojson')
         .then(response => response.json())
         .then(data => {
           //console.log(data);
@@ -73,7 +73,7 @@ const Sidebar = ({ addPinFunc, addCurrentLocPinFunc, clearPinsFunc }: SidebarPro
     if (map == null) {
       return;
     } else {
-      fetch('https://alltheplaces-data.openaddresses.io/runs/2024-11-02-13-32-13/output/chick_fil_a.geojson')
+      fetch('https://alltheplaces-data.openaddresses.io/runs/2025-05-17-13-31-55/output/chick_fil_a.geojson')
         .then(response => response.json())
         .then(data => {
           //console.log(data);
