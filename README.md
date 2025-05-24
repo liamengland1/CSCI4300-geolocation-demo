@@ -1,4 +1,4 @@
 - Created in Fall 2024 for a class presentation in CSCI 4300 (Web Programming) at the University of Georgia
 - Basic functionality, including showing the user's location on a map, searching for places, and displaying locations of McDonald's and Chick-fil-A restaurants within the map view
 - Restaurant locations come from the excellent resurce [All The Places](https://alltheplaces.xyz/)
-- I benefited greatly from the sample code in the `@vis.gl/react-google-maps` library's [documentation](https://visgl.github.io/react-google-maps/docs/api-reference/components/api-provider). In fact, you will see some code and comments that's been obviously copy-and-pasted from there.
+- I benefited greatly from the sample code in the `@vis.gl/react-google-maps` library's [documentation](https://visgl.github.io/react-google-maps/docs/api-reference/components/api-provider). In fact, you will see some code and comments that were obviously copy-and-pasted from there.
