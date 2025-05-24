@@ -1,5 +1,5 @@
 import { useAdvancedMarkerRef, AdvancedMarker, InfoWindow, Pin, useMap } from "@vis.gl/react-google-maps";
-import { useState, useCallback, ReactNode, ReactElement } from "react";
+import { useState, useCallback, ReactNode, ReactElement, useEffect } from "react";
 
 
 interface Poi {
@@ -10,20 +10,20 @@ interface Poi {
 
 interface MarkerWithInfoWindowProps {
     poi: Poi;
+    isOpen: boolean;
+    onClick: () => void;
   }
 
-const MarkerWithInfoWindow = ({poi}: MarkerWithInfoWindowProps) => {
+const MarkerWithInfoWindow = ({poi, isOpen, onClick}: MarkerWithInfoWindowProps) => {
     // `markerRef` and `marker` are needed to establish the connection between
     // the marker and infowindow (if you're using the Marker component, you
     // can use the `useMarkerRef` hook instead).
     const [markerRef, marker] = useAdvancedMarkerRef();
-  
-    const [infoWindowShown, setInfoWindowShown] = useState(false);
-  
+    
     // clicking the marker will toggle the infowindow
 
     // if the maps api closes the infowindow, we have to synchronize our state
-    const handleClose = useCallback(() => setInfoWindowShown(false), []);
+    //const handleClose = useCallback(() => setInfoWindowShown(false), []);
 
     // conditional styling based on infowindow text
     // mcdonalds, etc
@@ -49,14 +49,13 @@ const MarkerWithInfoWindow = ({poi}: MarkerWithInfoWindowProps) => {
 
     const handleMarkerClick = useCallback(
       (ev: google.maps.MapMouseEvent) => {
-        if(!map) return;
-        if(!ev.latLng) return;
-        setInfoWindowShown(isShown => !isShown);
-        console.log('marker clicked:', ev.latLng.toString());
+        if (!map || !ev.latLng) return;
         map.panTo(ev.latLng);
-      }, []);
-  
-  
+        onClick();
+      },
+      [map, onClick]
+    );
+      
     return (
       <>
         <AdvancedMarker
@@ -70,8 +69,8 @@ const MarkerWithInfoWindow = ({poi}: MarkerWithInfoWindowProps) => {
 
          
   
-        {infoWindowShown && (
-          <InfoWindow anchor={marker} onClose={handleClose}>
+        {isOpen && (
+          <InfoWindow anchor={marker} onClose={() => onClick()}>
             {(chain_name != '') ? (
             <div className={chain_name}>
                     
